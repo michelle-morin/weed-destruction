@@ -1,6 +1,6 @@
 # Rid your yard of the evil weed invaders!
 
-#### _C# Week One Practice _27th Feb. 2020_
+#### _C# Week One Practice_ _27th Feb. 2020_
 
 #### By _**Michelle Morin, Geoff Goetz **_
 
