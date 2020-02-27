@@ -13,7 +13,9 @@ namespace KillTheWeed.Models
       Alive = true;
     }
 
-    public static void BeverageBreak()
+    // Player player = new Player();
+
+    public void BeverageBreak()
     {
       Health += 20;
     }

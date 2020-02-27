@@ -1,11 +1,13 @@
 using System;
+using System.Collections.Generic;
 
 namespace KillTheWeed.Models
 {
   public class Weed
   {
     public int Size { get; set; }
-    public bool Alive { get; set }
+    public bool Alive { get; set; }
+    private static List<Weed> _myWeeds = new List<Weed>() {};
 
     public Weed()
     {
@@ -13,12 +15,16 @@ namespace KillTheWeed.Models
       Alive = true;
     }
 
-    List<Weed> myWeeds = new List<Weed> {};
+    public static List<Weed> getWeeds() {
+      return _myWeeds;
+    }
 
-    public static void RoundUp()
+    public void RoundUp()
     {
-      Size -= 2;
-      Player.Health -= 25;
+      foreach (Weed currentWeed in _myWeeds)
+      {
+        Size -= 2;
+      }
     }
 
     public void YardTool()
@@ -31,14 +37,14 @@ namespace KillTheWeed.Models
       Size = 0;
     }
 
-    public static void CheckAlive()
+    public void CheckAlive()
     {
-      foreach (Weed weed in myWeeds)
+      foreach (Weed currentWeed in _myWeeds)
       {
-        if (Size <= 0)
+        if (currentWeed.Size <= 0)
         {
           Alive = false;
-          myWeeds.Remove(weed);
+          _myWeeds.Remove(currentWeed);
         }
         else
         {
@@ -47,30 +53,30 @@ namespace KillTheWeed.Models
       }
     }
 
-    public static void PopulateYard(int yardSize)
+    public static void PopulateYard(string yardSize)
     {
-      if (yardSize < 1)
+      if (yardSize.ToLower() == "small")
       {
         for (int i=0; i<4; i++)
         {
           Weed weed = new Weed();
-          myWeeds.Add(weed);
+          _myWeeds.Add(weed);
         }
       }
-      else if (yardSize < 2)
+      else if (yardSize.ToLower() == "medium")
       {
         for (int i=0; i<7; i++)
         {
           Weed weed = new Weed();
-          myWeeds.Add(weed);
+          _myWeeds.Add(weed);
         }
       }
-      else 
+      else if (yardSize.ToLower() == "large")
       {
         for (int i=0; i<10; i++)
         {
           Weed weed = new Weed();
-          myWeeds.Add(weed);
+          _myWeeds.Add(weed);
         }
       }
     }
