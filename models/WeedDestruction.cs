@@ -15,40 +15,50 @@ namespace KillTheWeed.Models
       Alive = true;
     }
 
-    public static List<Weed> getWeeds() {
+    public static List<Weed> GetWeeds() 
+    {
       return _myWeeds;
     }
 
-    public void RoundUp()
+    public static void RoundUp(Player player)
     {
       foreach (Weed currentWeed in _myWeeds)
       {
-        Size -= 2;
+        currentWeed.Size -= 2;
       }
+      player.Health -= 50;
     }
 
-    public void YardTool()
+    public void HulaHoe(Player player)
     {
       Size -= 4;
+      player.Health -= 10;
     }
 
-    public void TurboTool()
+    public void Trowel(Player player)
+    {
+      Size -= 3;
+      player.Health -= 10;
+    }
+
+    public void TurboTool(Player player)
     {
       Size = 0;
+      player.Health -= 10;
     }
 
-    public void CheckAlive()
+    public static void CheckAlive()
     {
       foreach (Weed currentWeed in _myWeeds)
       {
         if (currentWeed.Size <= 0)
         {
-          Alive = false;
+          currentWeed.Alive = false;
           _myWeeds.Remove(currentWeed);
         }
         else
         {
-          Alive = true;
+          currentWeed.Alive = true;
         }
       }
     }
@@ -57,7 +67,7 @@ namespace KillTheWeed.Models
     {
       if (yardSize.ToLower() == "small")
       {
-        for (int i=0; i<4; i++)
+        for (int i=0; i<3; i++)
         {
           Weed weed = new Weed();
           _myWeeds.Add(weed);
@@ -65,7 +75,7 @@ namespace KillTheWeed.Models
       }
       else if (yardSize.ToLower() == "medium")
       {
-        for (int i=0; i<7; i++)
+        for (int i=0; i<6; i++)
         {
           Weed weed = new Weed();
           _myWeeds.Add(weed);
