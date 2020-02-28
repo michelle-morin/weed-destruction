@@ -47,20 +47,17 @@ namespace KillTheWeed.Models
       player.Health -= 10;
     }
 
-    public static void CheckAlive()
+    public static List<Weed> CheckAlive()
     {
+      List<Weed> currentlyAlive = new List<Weed> {};
       foreach (Weed currentWeed in _myWeeds)
       {
-        if (currentWeed.Size <= 0)
+        if (currentWeed.Size >= 0)
         {
-          currentWeed.Alive = false;
-          _myWeeds.Remove(currentWeed);
-        }
-        else
-        {
-          currentWeed.Alive = true;
+          currentlyAlive.Add(currentWeed);
         }
       }
+      return currentlyAlive;
     }
 
     public static void PopulateYard(string yardSize)

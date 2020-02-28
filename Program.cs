@@ -19,7 +19,7 @@ namespace KillTheWeed
         List<Weed> weedList = Weed.GetWeeds();
         string yardSize = ChooseBattleField();
         FillYard(yardSize, weedList);
-        Battle(player, weedList);
+        Battle(player);
       }
       else if (startStatus.ToLower() == "run away")
       {
@@ -63,10 +63,11 @@ namespace KillTheWeed
       return action;
     }
 
-    public static void Battle(Player player, List<Weed> weedList)
+    public static void Battle(Player player)
     {
       string action = ChooseOption();
       Console.Clear();
+      List<Weed> currentlyAlive = Weed.CheckAlive();
       if (action.ToLower() == "round up" || action.ToLower() == "trowel" || action.ToLower() == "turbo tool" || action.ToLower() == "hula hoe" || action.ToLower() == "vacation" || action.ToLower() == "sleep" || action.ToLower() == "water")
       {
         if (action.ToLower() == "round up")
@@ -76,15 +77,13 @@ namespace KillTheWeed
         }
         else if (action.ToLower() == "trowel" || action.ToLower() == "turbo tool" || action.ToLower() == "hula hoe")
         {
-          DisplayWeeds(weedList);
+          DisplayWeeds(currentlyAlive);
           Console.WriteLine("Which weed would you like to attack?");
           Console.WriteLine("[ ENTER WEED NUMBER ]");
           string stringWeedOption = Console.ReadLine();
           int weedOption = int.Parse(stringWeedOption);
           int weedOptionNum = weedOption - 1;
-          Console.WriteLine("weed option: " + weedOption);
-          Console.WriteLine("weed option - 1: " + weedOptionNum);
-          Weed selectedWeed = weedList[weedOptionNum];
+          Weed selectedWeed = currentlyAlive[weedOptionNum];
           if (action.ToLower() == "trowel")
           {
             selectedWeed.Trowel(player);
@@ -100,12 +99,12 @@ namespace KillTheWeed
         }
         else if (action.ToLower() == "vacation")
         {
-          player.Vacation(weedList);
+          player.Vacation(currentlyAlive);
           Console.WriteLine("You fly away to paradise... Meanwhile the weeds commit atrocities against your yard!");
         }
         else if (action.ToLower() == "sleep")
         {
-          player.Sleep(weedList);
+          player.Sleep(currentlyAlive);
           Console.WriteLine("Your weeds grew while you were asleep!");
         }
         else if (action.ToLower() == "water")
@@ -113,22 +112,21 @@ namespace KillTheWeed
           player.BeverageBreak();
           Console.WriteLine("Now that you're hydrated... are you ready to battle the weeds again?");
         }
-        Weed.CheckAlive();
-        NextMove(player, weedList);
+        NextMove(player, currentlyAlive);
       }
       else
       {
-        Battle(player, weedList);
+        Battle(player);
       }
     }
 
-    public static int CheckGameStatus(Player player, List<Weed> weedList)
+    public static int CheckGameStatus(Player player, List<Weed> currentlyAlive)
     {
-      if (player.Health <= 0 || weedList.Count > 20)
+      if (player.Health <= 0 || currentlyAlive.Count > 20)
       {
         return 1;
       }
-      else if (weedList.Count == 0)
+      else if (currentlyAlive.Count == 0)
       {
         return 2;
       }
@@ -152,14 +150,14 @@ namespace KillTheWeed
       }
     }
 
-    public static void NextMove(Player player, List<Weed> weedList)
+    public static void NextMove(Player player, List<Weed> currentlyAlive)
     {
-      int isGameOver = CheckGameStatus(player, weedList);
+      int isGameOver = CheckGameStatus(player, currentlyAlive);
       if (isGameOver == 0)
       {
-        DisplayWeeds(weedList);
+        DisplayWeeds(currentlyAlive);
         DisplayPlayer(player);
-        Battle(player, weedList);
+        Battle(player);
       }
       else if (isGameOver == 1 || isGameOver == 2)
       {
@@ -167,11 +165,11 @@ namespace KillTheWeed
       }
     }
 
-    public static void DisplayWeeds(List<Weed> weedList)
+    public static void DisplayWeeds(List<Weed> currentlyAlive)
     {
       Console.WriteLine("Your opponents:");
       int counter = 1;
-      foreach(Weed currentWeed in weedList)
+      foreach(Weed currentWeed in currentlyAlive)
       {
         Console.WriteLine("Weed "+ counter + " size: " + currentWeed.Size);
         Console.WriteLine("---------------");
