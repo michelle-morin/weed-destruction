@@ -2,7 +2,7 @@
 
 #### _C# Week One Practice_ _27th Feb. 2020_
 
-#### By _**Michelle Morin, Geoff Goetz **_
+#### By _**Michelle Morin**, **Geoff Goetz**_
 
 ## Description
 
